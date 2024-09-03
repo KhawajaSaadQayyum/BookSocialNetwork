@@ -91,7 +91,7 @@ public class User implements UserDetails, Principal {
     public boolean isEnabled() {
         return enabled;
     }
-    private String fullname(){
+    public String getFullName(){
         return firstname + " "+ lastname;
     }
 }

@@ -1,0 +1,30 @@
+services:
+  mysql:
+    container_name: mysql-db-bsn
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: saad4110
+      MYSQL_DATABASE: book_social_network
+      MYSQL_USER: saad
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - 3307:3306
+    networks:
+      - spring-demo
+    restart: unless-stopped
+
+  mail-dev:
+    container_name: mail-dev-bsn
+    image: maildev/maildev
+    ports:
+      - 1080:1080
+      - 1025:1025
+networks:
+  spring-demo:
+    driver: bridge
+
+volumes:
+  mysql:
+    driver: local

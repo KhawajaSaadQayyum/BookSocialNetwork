@@ -8,11 +8,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
-
 @Getter
 @Setter
 @Builder
 public class RegistrationRequest {
+
+
     @NotEmpty(message = "Firstname is mandatory")
     @NotNull(message = "Firstname is mandatory")
     private String firstname;

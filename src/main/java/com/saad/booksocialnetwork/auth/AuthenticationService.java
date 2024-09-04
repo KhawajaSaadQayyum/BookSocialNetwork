@@ -38,8 +38,9 @@ public class AuthenticationService {
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
 
-    public void register(RegistrationRequest request) throws MessagingException {
 
+
+    public void register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
                 // todo - better exception handling
                 .orElseThrow(() -> new IllegalStateException("ROLE USER was not initiated"));
@@ -55,6 +56,9 @@ public class AuthenticationService {
         userRepository.save(user);
         sendValidationEmail(user);
     }
+
+
+
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -62,6 +66,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
+
         var claims = new HashMap<String, Object>();
         var user = ((User) auth.getPrincipal());
         claims.put("fullName", user.getFullName());
@@ -86,6 +91,7 @@ public class AuthenticationService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         user.setEnabled(true);
         userRepository.save(user);
+
 
         savedToken.setValidatedAt(LocalDateTime.now());
         tokenRepository.save(savedToken);

@@ -1,5 +1,6 @@
 package com.saad.booksocialnetwork.auth;
 
+import com.saad.booksocialnetwork.user.UserRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name = "Authentication")
 public class AuthenticationController {
-
+   private final UserRepository userRepository;
     private final AuthenticationService service;
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -24,5 +25,18 @@ public class AuthenticationController {
         service.register(request);
         return ResponseEntity.accepted().build();
     }
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            @RequestBody AuthenticationRequest request
+    ) {
+        return ResponseEntity.ok(service.authenticate(request));
+    }
+    @GetMapping("/activate-account")
+    public void confirm(
+            @RequestParam String token
+    ) throws MessagingException {
+        service.activateAccount(token);
+    }
+
 
 }
